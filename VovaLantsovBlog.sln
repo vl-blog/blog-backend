@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VovaLantsovBlog.Integration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VovaLantsovBlog.Data", "src\Data\VovaLantsovBlog.Data.csproj", "{E3D33325-29CE-4A0D-854A-6404DAF4CDAF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{E0A02002-BD24-4FA3-9B5C-95436E53B7F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0A02002-BD24-4FA3-9B5C-95436E53B7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0A02002-BD24-4FA3-9B5C-95436E53B7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0A02002-BD24-4FA3-9B5C-95436E53B7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A67AA515-9C1F-4CC7-A4A8-89C25C84E250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A67AA515-9C1F-4CC7-A4A8-89C25C84E250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A67AA515-9C1F-4CC7-A4A8-89C25C84E250}.Debug|x64.ActiveCfg = Debug|Any CPU
