@@ -35,5 +35,19 @@ changeBuildType(RelativeId("Up")) {
                 """.trimIndent())
             }
         }
+        insert(2) {
+            step {
+                name = "Production database settings"
+                type = "CreateTextFile"
+                param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/dbsettings.Production.json")
+                param("content", """
+                    {
+                        "ConnectionStrings": {
+                            "BlogConnectionString": "Host=vl_blog_postgres;Port=5432;UserId=postgres;Password=eCM4HroqZv8MNeyuG9VMrFxjTAnT;Database=vl_blog;CommandTimeout=300;"
+                        }
+                    }
+                """.trimIndent())
+            }
+        }
     }
 }
