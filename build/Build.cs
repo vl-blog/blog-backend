@@ -20,7 +20,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [TeamCity(
     TeamCityAgentPlatform.Unix,
     Version = "2020.2",
-    VcsTriggeredTargets = new[] {nameof(Test)},
+    VcsTriggeredTargets = new[] {nameof(Test), nameof(Up)},
     NonEntryTargets = new[] {nameof(Restore)},
     ExcludedTargets = new[] {nameof(Clean)})]
 [GitHubActions(
