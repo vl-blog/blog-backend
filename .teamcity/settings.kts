@@ -45,6 +45,14 @@ project {
             value = "Release",
             options = listOf("Debug" to "Debug", "Release" to "Release"),
             display = ParameterDisplay.NORMAL)
+        checkbox (
+            "env.WipeDatabaseData",
+            label = "WipeDatabaseData",
+            description = "Check to wipe the database data on shutdown.",
+            value = "False",
+            checked = "True",
+            unchecked = "False",
+            display = ParameterDisplay.NORMAL)
     }
 }
 object Compile : BuildType({

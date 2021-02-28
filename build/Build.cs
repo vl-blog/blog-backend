@@ -39,16 +39,34 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     InvokedTargets = new[] {nameof(Test)})]
 class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main () => Execute<Build>(x => x.Up);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    
+    [Parameter("Check to wipe the database data on shutdown.")]
+    readonly bool WipeDatabaseData;
 
     [Solution] readonly Solution Solution;
     
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath OutputDirectory => RootDirectory / "output";
+    
+    [PathExecutable("docker-compose")] readonly Tool DockerCompose;
+    
+    Target Down => _ => _
+        .Executes(() =>
+        {
+            DockerCompose(WipeDatabaseData ? "down --volumes" : "down", SourceDirectory);
+        });
+
+    Target Up => _ => _
+        .DependsOn(Down)
+        .Executes(() =>
+        {
+            DockerCompose("up --build -d", SourceDirectory);
+        });
 
     Target Clean => _ => _
         .Executes(() =>
