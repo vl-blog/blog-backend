@@ -27,8 +27,10 @@ project {
     buildType(Test_P1T2)
     buildType(Test_P2T2)
     buildType(Test)
+    buildType(Down)
+    buildType(Up)
 
-    buildTypesOrder = arrayListOf(Compile, Test_P1T2, Test_P2T2, Test)
+    buildTypesOrder = arrayListOf(Compile, Test_P1T2, Test_P2T2, Test, Down, Up)
 
     params {
         select (
@@ -124,11 +126,11 @@ object Test : BuildType({
     }
     dependencies {
         snapshot(Test_P1T2) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyFailure = FailureAction.ADD_PROBLEM
             onDependencyCancel = FailureAction.CANCEL
         }
         snapshot(Test_P2T2) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyFailure = FailureAction.ADD_PROBLEM
             onDependencyCancel = FailureAction.CANCEL
         }
         artifacts(Test_P1T2) {
@@ -136,6 +138,43 @@ object Test : BuildType({
         }
         artifacts(Test_P2T2) {
             artifactRules = "**/*"
+        }
+    }
+})
+object Down : BuildType({
+    name = "Down"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.sh"
+            arguments = "Down --skip"
+        }
+    }
+})
+object Up : BuildType({
+    name = "Up"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.sh"
+            arguments = "Up --skip"
+        }
+    }
+    triggers {
+        vcs {
+            triggerRules = "+:**"
+        }
+    }
+    dependencies {
+        snapshot(Down) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
 })
