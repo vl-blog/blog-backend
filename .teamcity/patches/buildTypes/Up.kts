@@ -17,7 +17,7 @@ changeBuildType(RelativeId("Up")) {
         }
     }
     steps {
-        insert(1) {
+        insert(0) {
             step {
                 name = "Production docker-compose configuration"
                 type = "CreateTextFile"
@@ -35,7 +35,7 @@ changeBuildType(RelativeId("Up")) {
                 """.trimIndent())
             }
         }
-        insert(2) {
+        insert(1) {
             step {
                 name = "Production database settings"
                 type = "CreateTextFile"
