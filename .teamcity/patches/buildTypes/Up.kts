@@ -1,6 +1,7 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_1.*
+import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.ExecBuildStep
 import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.exec
 import jetbrains.buildServer.configs.kotlin.v2018_1.ui.*
 
@@ -10,6 +11,12 @@ To apply the patch, change the buildType with id = 'Up'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("Up")) {
+    params {
+        add {
+            text("env.ASPNETCORE_ENVIRONMENT", "Production", readOnly = true, allowEmpty = true)
+        }
+    }
+
     expectSteps {
         exec {
             path = "build.sh"
@@ -48,6 +55,9 @@ changeBuildType(RelativeId("Up")) {
                     }
                 """.trimIndent())
             }
+        }
+        update<ExecBuildStep>(2) {
+            clearConditions()
         }
     }
 }
