@@ -15,6 +15,9 @@ changeBuildType(RelativeId("Up")) {
         add {
             text("env.ASPNETCORE_ENVIRONMENT", "Production", readOnly = true, allowEmpty = true)
         }
+        add {
+            password("env.POSTGRES_PASSWORD", "credentialsJSON:8e2d511f-c29c-412b-bb7e-a7a29d2cce3f", display = ParameterDisplay.HIDDEN, readOnly = true)
+        }
     }
 
     expectSteps {
