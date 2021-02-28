@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime Js
 
 <header class="hero">
     <div class="hero__menu">
@@ -45,3 +46,17 @@
 <main>
     @Body
 </main>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToSearchButton");
+            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToCloseButton");
+            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToMenuButton");
+        }
+    }
+
+}
