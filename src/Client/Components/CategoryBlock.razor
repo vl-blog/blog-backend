@@ -18,13 +18,18 @@
             </div>
         </div>
         <div class="blog-list__list">
-            @{
+            @if (Category.Posts == null || Category.Posts.Count == 0)
+            {
+                <p>There are no posts in this category yet.</p>
+            }
+            else
+            {
                 bool isLastItemLong = true;
                 foreach (var postsRow in Category.Posts.Select((p, i) => new {ind = i / 3, p}).GroupBy(it => it.ind))
                 {
                     bool temp = isLastItemLong;
                     isLastItemLong = !isLastItemLong;
-                    <CategoryBlockRow Posts="@postsRow.Select(r => r.p)" IsLastItemLong="@temp" />
+                    <CategoryBlockRow Posts="@postsRow.Select(r => r.p)" IsLastItemLong="@temp"/>
                 }
             }
         </div>
