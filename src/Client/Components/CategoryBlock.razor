@@ -1,0 +1,44 @@
+﻿@using VovaLantsovBlog.Shared.Responses.Category
+@inject NavigationManager Nav
+
+<section class="blog-list spacer">
+    <div class="container">
+        <div class="h1">
+            <div class="h1__title">
+                <h1>@Category.CategoryName</h1>
+                <a role="button" @onclick="NavigateToCategory" class="more">
+                    Read more
+                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 6H15M15 6L10.1282 1M15 6L10.1282 11" stroke="#124594" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="blog-list__list">
+            @if (Category.Posts.Count > 0)
+            {
+                <CategoryBlockRow Posts="@Category.Posts.Take(3)" IsLastItemLong="@true"/>
+            }
+            else
+            {
+                <p>There are no post in this category yet.</p>
+            }
+            @if (Category.Posts.Count > 3)
+            {
+                <CategoryBlockRow Posts="@Category.Posts.Skip(3)" IsLastItemLong="@false"/>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    
+    [Parameter]
+    public CategoryResponseModel Category { get; set; }
+
+    private void NavigateToCategory()
+    {
+        Nav.NavigateTo($"/cat/{Category.CategoryId}");
+    }
+    
+}

@@ -1,0 +1,20 @@
+﻿@using VovaLantsovBlog.Shared.Responses.Post
+
+@{
+    int i = 0;
+}
+@foreach (var post in Posts)
+{
+    i++;
+    <CategoryBlockItem Post="post" IsLongItem="@(IsLastItemLong && i == 3 || !IsLastItemLong && i == 0)" />
+}
+
+@code {
+    
+    [Parameter]
+    public IEnumerable<PostPreviewResponseModel> Posts { get; set; }
+    
+    [Parameter]
+    public bool IsLastItemLong { get; set; }
+    
+}

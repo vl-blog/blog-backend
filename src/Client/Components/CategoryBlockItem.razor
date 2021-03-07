@@ -1,0 +1,29 @@
+﻿@using VovaLantsovBlog.Shared.Responses.Post
+@inject NavigationManager Nav
+
+<div class="@ClassNames">
+    <a role="button" @onclick="NavigateToPost" class="blog-list__list-image">
+        <img src="@Post.ImageUrl" alt="pic">
+    </a>
+    <a role="button" @onclick="NavigateToPost" class="blog-list__list-title">
+        @Post.PostTitle
+    </a>
+    <p>@Post.LastEditedTime</p>
+</div>
+
+@code {
+    
+    [Parameter]
+    public PostPreviewResponseModel Post { get; set; }
+    
+    [Parameter]
+    public bool IsLongItem { get; set; }
+
+    private string ClassNames => IsLongItem ? "blog-list__list-item blog-list__list-item--long" : "blog-list__list-item";
+
+    private void NavigateToPost()
+    {
+        Nav.NavigateTo($"/post/{Post.PostId}");
+    }
+
+}
