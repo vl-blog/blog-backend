@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime Js
+@inject NavigationManager Nav
 
 <header class="hero">
     <div class="hero__menu">
@@ -8,7 +9,7 @@
         <span></span>
     </div>
     <div class="hero__logo">
-        <a href="#">
+        <a role="button" @onclick="NavigateToHomePage">
             <img src="images/logo.jpg" alt="logotype">
         </a>
     </div>
@@ -57,6 +58,11 @@
             await Js.InvokeVoidAsync("headerControlFunctions.addListenerToCloseButton");
             await Js.InvokeVoidAsync("headerControlFunctions.addListenerToMenuButton");
         }
+    }
+
+    private void NavigateToHomePage()
+    {
+        Nav.NavigateTo("/");
     }
 
 }
