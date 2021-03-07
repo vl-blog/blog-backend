@@ -1,179 +1,26 @@
 ﻿@page "/"
+@using VovaLantsovBlog.Shared.Responses.Category
+@using System.Text.Json
+@inject HttpClient Http
 
-<section class="blog-list spacer">
-    <div class="container">
-        <div class="h1">
-            <div class="h1__title">
-                <h1>.NET / C#</h1>
-                <a href="#" class="more">
-                    Read more
-                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 6H15M15 6L10.1282 1M15 6L10.1282 11" stroke="#124594" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <div class="blog-list__list">
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item blog-list__list-item--long">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item blog-list__list-item--long">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                        alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="blog-list spacer">
-    <div class="container">
-        <div class="h1">
-            <div class="h1__title">
-                <h1>Raspberry Pi</h1>
-                <a href="#" class="more">
-                    Read more
-                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 6H15M15 6L10.1282 1M15 6L10.1282 11" stroke="#124594" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <div class="blog-list__list">
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item blog-list__list-item--long">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item blog-list__list-item--long">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-            <div class="blog-list__list-item">
-
-                <a href="#!" class="blog-list__list-image">
-                    <img src="https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                         alt="pic">
-                </a>
-                <a href="#!" class="blog-list__list-title">
-                    Odio ipsum at rhoncus, in enim eu leo lacus nam
-                </a>
-                <p>1 hour ago</p>
-            </div>
-        </div>
-    </div>
-</section>
+@if (Categories != null)
+{
+    foreach (var category in Categories)
+    {
+        <CategoryBlock Category="@category" IsReadMoreEnabled="@true" />
+    }
+}
 
 <div class="spacer"></div>
 
 @code {
     
+    private List<CategoryResponseModel> Categories { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
+        Categories = await Http.GetFromJsonAsync<List<CategoryResponseModel>>("api/home/getCategoriesPreview",
+            new JsonSerializerOptions(JsonSerializerDefaults.Web));
     }
 
 }
