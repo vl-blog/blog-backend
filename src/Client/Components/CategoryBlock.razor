@@ -24,7 +24,7 @@
                 {
                     bool temp = isLastItemLong;
                     isLastItemLong = !isLastItemLong;
-                    <CategoryBlockRow Posts="@postsRow" IsLastItemLong="@temp" />
+                    <CategoryBlockRow Posts="@postsRow.Select(r => r.p)" IsLastItemLong="@temp" />
                 }
             }
         </div>
