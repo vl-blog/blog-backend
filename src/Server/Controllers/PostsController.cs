@@ -44,20 +44,6 @@ namespace VovaLantsovBlog.Server.Controllers
                         LastEditedTime = "1 hour ago",
                         ImageUrl = link,
                         PostTitle = "Post 3"
-                    },
-                    new()
-                    {
-                        PostId = "4",
-                        LastEditedTime = "1 hour ago",
-                        ImageUrl = link,
-                        PostTitle = "Post 4"
-                    },
-                    new()
-                    {
-                        PostId = "5",
-                        LastEditedTime = "1 hour ago",
-                        ImageUrl = link,
-                        PostTitle = "Post 5"
                     }
                 }
             };
