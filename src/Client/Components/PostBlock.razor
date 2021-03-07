@@ -1,0 +1,59 @@
+﻿@using VovaLantsovBlog.Shared.Responses.Post
+@using Markdig
+
+<section class="blog spacer">
+    <div class="container">
+        <div class="blog__title">
+            <h1>@Post.PostTitle</h1>
+        </div>
+        <div class="blog__image">
+            <img src="@Post.ImageUrl" alt="blog-image">
+        </div>
+        <div class="blog__inf">
+            <div class="blog__inf-date">
+                @Post.LastEditedTime
+            </div>
+            <div class="blog__inf-socials">
+                <a href="https://twitter.com/intent/tweet?text=Hello%20world" target="_blank" class="blog__inf-social">
+                    <img src="images/svg/twitter.svg" alt="twitter-share">
+                </a>
+                <a href="https://t.me/share/url?url=mysite.com&text=Супер пост!" target="" class="blog__inf-social">
+                    <img src="images/svg/telegram.svg" alt="telegram-share">
+                </a>
+            </div>
+        </div>
+        <div class="blog__tags">
+            <a href="#" class="blog__tag">
+                .NET / C#
+            </a>
+            <a href="#" class="blog__tag">
+                Raspberry Pi
+            </a>
+        </div>
+        <div class="blog__content">
+            @MarkdownContent
+        </div>
+        <div class="blog__author">
+            <div class="blog__author-title">
+                Post author
+            </div>
+            <a href="https://t.me/vova_lantsov" target="_blank" class="blog__author-name">
+                @Post.Author
+            </a>
+        </div>
+    </div>
+</section>
+
+@code {
+    
+    [Parameter]
+    public PostResponseModel Post { get; set; }
+    
+    private MarkupString MarkdownContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MarkdownContent = new MarkupString(Markdown.ToHtml(Post.MarkdownContent));
+    }
+
+}

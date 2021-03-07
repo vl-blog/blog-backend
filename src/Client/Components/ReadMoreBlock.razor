@@ -1,0 +1,33 @@
+﻿@using VovaLantsovBlog.Shared.Responses.Post
+@inject NavigationManager Nav
+
+<section class="read-more spacer">
+    <div class="container">
+        <div class="h1">
+            <div class="h1__title">
+                <h1>Read more</h1>
+            </div>
+        </div>
+        <div class="read-more__items">
+            @foreach (var readMorePost in ReadMorePosts)
+            {
+                <div class="read-more__item">
+                    <a role="button" @onclick="@(() => Nav.NavigateTo($"/post/{readMorePost.PostId}"))" class="read-more__item-image">
+                        <img src="@readMorePost.ImageUrl" alt="pic">
+                    </a>
+                    <a role="button" @onclick="@(() => Nav.NavigateTo($"/post/{readMorePost.PostId}"))" class="read-more__item-title">
+                        @readMorePost.PostTitle
+                    </a>
+                    <p>@readMorePost.LastEditedTime</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    
+    [Parameter]
+    public List<PostPreviewResponseModel> ReadMorePosts { get; set; }
+    
+}
