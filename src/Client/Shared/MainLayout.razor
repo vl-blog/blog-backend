@@ -9,7 +9,7 @@
         <span></span>
     </div>
     <div class="hero__logo">
-        <a role="button" @onclick="NavigateToHomePage">
+        <a href="/">
             <img src="images/logo.jpg" alt="logotype">
         </a>
     </div>
@@ -58,11 +58,6 @@
             await Js.InvokeVoidAsync("headerControlFunctions.addListenerToCloseButton");
             await Js.InvokeVoidAsync("headerControlFunctions.addListenerToMenuButton");
         }
-    }
-
-    private void NavigateToHomePage()
-    {
-        Nav.NavigateTo("/");
     }
 
 }

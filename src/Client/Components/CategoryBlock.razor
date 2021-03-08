@@ -8,7 +8,7 @@
                 <h1>@Category.CategoryName</h1>
                 @if (IsReadMoreEnabled)
                 {
-                    <a role="button" @onclick="NavigateToCategory" class="more">
+                    <a href="/cat/@Category.CategoryId" class="more">
                         Read more
                         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 6H15M15 6L10.1282 1M15 6L10.1282 11" stroke="#124594"/>
@@ -43,10 +43,5 @@
     
     [Parameter]
     public bool IsReadMoreEnabled { get; set; }
-
-    private void NavigateToCategory()
-    {
-        Nav.NavigateTo($"/cat/{Category.CategoryId}");
-    }
     
 }
