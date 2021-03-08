@@ -11,5 +11,6 @@ namespace VovaLantsovBlog.Shared.Responses.Post
         public string MarkdownContent { get; init; }
         public string Author { get; init; }
         public List<PostPreviewResponseModel> ReadMorePosts { get; init; }
+        public List<TagResponseModel>? Tags { get; init; }
     }
 }
