@@ -27,7 +27,7 @@
             <div class="blog__tags">
                 @foreach (var tag in Post.Tags)
                 {
-                    <a href="/cat/@tag.Id">
+                    <a href="/cat/@tag.Id" class="blog__tag">
                         @tag.Name
                     </a>
                 }
