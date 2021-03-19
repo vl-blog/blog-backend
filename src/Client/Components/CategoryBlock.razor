@@ -20,7 +20,7 @@
         <div class="blog-list__list">
             @if (Category.Posts == null || Category.Posts.Count == 0)
             {
-                <p>There are no posts in this category yet.</p>
+                <div class="blog-list__no-blog">There are no posts in this category yet.</div>
             }
             else
             {
