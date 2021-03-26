@@ -18,7 +18,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        CategoryItem = await Http.GetFromJsonAsync<CategoryResponseModel>($"api/categories/getCategory?tag={Tag}");
+        CategoryItem = await Http.GetFromJsonAsync<CategoryResponseModel>($"api/tags/getTag?key={Tag}");
     }
 
 }

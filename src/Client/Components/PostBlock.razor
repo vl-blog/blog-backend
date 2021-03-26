@@ -56,6 +56,7 @@
 
     protected override void OnInitialized()
     {
+        Console.WriteLine(Markdown.ToHtml(Post.MarkdownContent));
         MarkdownContent = new MarkupString(Markdown.ToHtml(Post.MarkdownContent));
     }
 

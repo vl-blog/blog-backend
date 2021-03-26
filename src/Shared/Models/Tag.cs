@@ -11,5 +11,8 @@ namespace VovaLantsovBlog.Shared.Models
 
         [Required, Column("tag_name", TypeName = "text")]
         public string Name { get; set; } = null!;
+        
+        [Required, Column("is_category", TypeName = "boolean")]
+        public bool IsCategory { get; set; }
     }
 }

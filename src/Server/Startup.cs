@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Server.Authentication;
+using VovaLantsovBlog.Shared;
 
 namespace VovaLantsovBlog.Server
 {
@@ -30,7 +31,7 @@ namespace VovaLantsovBlog.Server
                 options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
                     builder.EnableRetryOnFailure()
                         .MigrationsAssembly("VovaLantsovBlog.Data")
-                        .MigrationsHistoryTable("__MigrationHistory", BlogContext.SchemaName)));
+                        .MigrationsHistoryTable("__MigrationHistory", Constants.SchemaName)));
 
             services.AddDbContext<AuthDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
