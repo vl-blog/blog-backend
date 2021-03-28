@@ -53,7 +53,7 @@ changeBuildType(RelativeId("Up")) {
                 param("content", """
                     {
                         "ConnectionStrings": {
-                            "BlogConnectionString": "Host=vl_blog_postgres;Port=5432;UserId=postgres;Password=eCM4HroqZv8MNeyuG9VMrFxjTAnT;Database=vl_blog;CommandTimeout=300;"
+                            "BlogConnectionString": "Host=db-postgresql-fra1-35121-do-user-8845680-0.b.db.ondigitalocean.com;Port=25060;UserId=doadmin;Password=l03o22dh37lyaday;Database=blog;CommandTimeout=300;SslMode=Require;ClientCertificate=/keys/ca-certificate.crt;TrustServerCertificate=true"
                         }
                     }
                 """.trimIndent())
