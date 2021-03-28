@@ -26,22 +26,6 @@ services:
     volumes:
       - /D/Keys/blog:/keys
 
-  postgres:
-    << : *restart_policy
-    container_name: vl_blog_postgres
-    image: postgres:12.4
-    ports:
-      - "5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=vl_blog
-      - POSTGRES_PASSWORD=HYMLWXaUpZ6hVUaEQy
-    command: ["-c", "shared_buffers=512MB", "-c", "max_connections=500"]
-    volumes:
-      - host_volume:/var/lib/postgresql/data
-    networks:
-      - host_network
-
 volumes:
   host_volume:
     name: vl_blog_postgres_volume

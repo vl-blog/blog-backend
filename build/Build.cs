@@ -65,7 +65,7 @@ class Build : NukeBuild
         .DependsOn(Down)
         .Executes(() =>
         {
-            DockerCompose("up --build -d", SourceDirectory);
+            DockerCompose("up --build -d --remove-orphans", SourceDirectory);
         });
 
     Target Clean => _ => _
