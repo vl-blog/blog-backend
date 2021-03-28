@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Shared.Responses.Category;
 using VovaLantsovBlog.Shared.Responses.Post;
 
@@ -11,76 +14,46 @@ namespace VovaLantsovBlog.Server.Controllers
     [AllowAnonymous]
     public sealed class HomeController : ControllerBase
     {
-        [HttpGet("getCategoriesPreview")]
-        public ActionResult<List<CategoryResponseModel>> GetCategoriesPreview()
+        private readonly BlogContext _context;
+
+        public HomeController(BlogContext context)
         {
-            const string link = "https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-            return new List<CategoryResponseModel>
+            _context = context;
+        }
+        
+        [HttpGet("getCategoriesPreview")]
+        public ActionResult<List<CategoryResponseModel>> GetCategoriesPreview([FromQuery] bool includePosts = true)
+        {
+            var models = new List<CategoryResponseModel>();
+            var query = _context.Tags.Where(t => t.IsCategory);
+            if (includePosts)
+                query = query.Include(t => t.Posts);
+            var categories = query.ToArray();
+            foreach (var category in categories)
             {
-                new()
+                var model = new CategoryResponseModel
                 {
-                    CategoryId = "dotnet",
-                    CategoryName = ".NET / C#",
-                    Posts = new List<PostPreviewResponseModel>
+                    CategoryId = category.Key,
+                    CategoryName = category.Name,
+                    Posts = new List<PostPreviewResponseModel>()
+                };
+                if (includePosts)
+                {
+                    foreach (var post in category.Posts)
                     {
-                        new()
+                        model.Posts.Add(new PostPreviewResponseModel
                         {
-                            PostId = "1",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 1"
-                        },
-                        new()
-                        {
-                            PostId = "2",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 2"
-                        },
-                        new()
-                        {
-                            PostId = "3",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 3"
-                        },
-                        new()
-                        {
-                            PostId = "4",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 4"
-                        },
-                        new()
-                        {
-                            PostId = "5",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 5"
-                        }
+                            ImageUrl = post.ImageUrl,
+                            PostId = post.Key,
+                            PostTitle = post.PostTitle,
+                            LastEditedTime = post.LastEditedTime.ToLongDateString()
+                        });
                     }
-                },
-                new()
-                {
-                    CategoryId = "rpi",
-                    CategoryName = "Raspberry Pi",
-                    Posts = new List<PostPreviewResponseModel>
-                    {
-                        new()
-                        {
-                            PostId = "6",
-                            LastEditedTime = "1 hour ago",
-                            ImageUrl = link,
-                            PostTitle = "Post 6"
-                        }
-                    }
-                },
-                new()
-                {
-                    CategoryId = "tourism",
-                    CategoryName = "Tourism"
                 }
-            };
+                models.Add(model);
+            }
+
+            return models;
         }
     }
 }

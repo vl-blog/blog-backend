@@ -1,13 +1,23 @@
-﻿<nav class="hero__navigation">
-    <NavLink href="/cat/dotnet" class="hero__navigation-link" Match="NavLinkMatch.All">.NET / C#</NavLink>
-    <NavLink href="/cat/rpi" class="hero__navigation-link" Match="NavLinkMatch.All">Raspberry Pi</NavLink>
+﻿@using VovaLantsovBlog.Shared.Responses.Category
+@inject HttpClient Http
+
+<nav class="hero__navigation">
+    @if (Categories != null)
+    {
+        foreach (var category in Categories)
+        {
+            <NavLink href="/cat/@category.CategoryId" class="hero__navigation-link" Match="NavLinkMatch.All">@category.CategoryName</NavLink>
+        }
+    }
 </nav>
 
 @code {
     
+    private List<CategoryResponseModel> Categories { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
+        Categories = await Http.GetFromJsonAsync<List<CategoryResponseModel>>("api/home/getCategoriesPreview?includePosts=false");
     }
 
 }
