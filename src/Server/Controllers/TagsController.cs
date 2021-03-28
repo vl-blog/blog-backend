@@ -21,9 +21,11 @@ namespace VovaLantsovBlog.Server.Controllers
         }
 
         [HttpGet("getTag")]
-        public ActionResult<CategoryResponseModel> GetCategoryOrTagByKey([FromQuery] string key)
+        public ActionResult<CategoryResponseModel>? GetCategoryOrTagByKey([FromQuery] string key)
         {
             var category = _context.Tags.FirstOrDefault(t => t.Key == key);
+            if (category == null)
+                return null;
             return new CategoryResponseModel
             {
                 CategoryId = category!.Key,

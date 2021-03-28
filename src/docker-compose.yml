@@ -23,6 +23,8 @@ services:
       dockerfile: Server/Dockerfile
     networks:
       - host_network
+    volumes:
+      - /D/Keys/blog:/keys
 
   postgres:
     << : *restart_policy
