@@ -14,8 +14,6 @@ services:
   host:
     << : *restart_policy
     << : *host_config
-    depends_on:
-      - postgres
     container_name: vl_blog_host
     image: vl_blog/host:latest
     build:
