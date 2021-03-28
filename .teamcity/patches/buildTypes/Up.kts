@@ -37,6 +37,8 @@ changeBuildType(RelativeId("Up")) {
                     
                     services:
                       host:
+                        volumes:
+                          - /keys:/keys
                         environment:
                           - ASPNETCORE_ENVIRONMENT=%env.ASPNETCORE_ENVIRONMENT%
                       postgres:
