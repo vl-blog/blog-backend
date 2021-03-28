@@ -41,9 +41,6 @@ changeBuildType(RelativeId("Up")) {
                           - /keys:/keys
                         environment:
                           - ASPNETCORE_ENVIRONMENT=%env.ASPNETCORE_ENVIRONMENT%
-                      postgres:
-                        environment:
-                          - POSTGRES_PASSWORD=%env.POSTGRES_PASSWORD%
                 """.trimIndent())
             }
         }
