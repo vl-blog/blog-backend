@@ -50,10 +50,17 @@ project {
         checkbox (
             "env.WipeDatabaseData",
             label = "WipeDatabaseData",
-            description = "Check to wipe the database data on shutdown.",
+            description = "Check to wipe the database data on shutdown",
             value = "False",
             checked = "True",
             unchecked = "False",
+            display = ParameterDisplay.NORMAL)
+        text (
+            "env.ProjectName",
+            label = "ProjectName",
+            description = "The name of docker-compose project",
+            value = "blog",
+            allowEmpty = true,
             display = ParameterDisplay.NORMAL)
     }
 }
@@ -126,11 +133,11 @@ object Test : BuildType({
     }
     dependencies {
         snapshot(Test_P1T2) {
-            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyFailure = FailureAction.FAIL_TO_START
             onDependencyCancel = FailureAction.CANCEL
         }
         snapshot(Test_P2T2) {
-            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyFailure = FailureAction.FAIL_TO_START
             onDependencyCancel = FailureAction.CANCEL
         }
         artifacts(Test_P1T2) {
