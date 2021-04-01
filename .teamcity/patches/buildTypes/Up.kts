@@ -19,7 +19,7 @@ changeBuildType(RelativeId("Up")) {
             password("env.SENTRY_DSN", "credentialsJSON:205daec2-7af9-46f4-a515-9c9a90e027d0", display = ParameterDisplay.HIDDEN)
         }
         add {
-            password("env.POSTGRES_PASSWORD", "credentialsJSON:1e25d30c-7993-4f20-8a26-42255dfc111a", display = ParameterDisplay.HIDDEN, readOnly = true)
+            password("env.POSTGRES_PASSWORD", "credentialsJSON:1e25d30c-7993-4f20-8a26-42255dfc111a", display = ParameterDisplay.HIDDEN)
         }
     }
 
