@@ -35,4 +35,10 @@
     <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
