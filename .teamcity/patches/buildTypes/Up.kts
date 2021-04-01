@@ -51,6 +51,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production database settings"
                 type = "CreateTextFile"
+                enabled = false
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/dbsettings.Production.json")
                 param("content", """
                     {
