@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Server.Authentication;
 
@@ -35,10 +36,22 @@ namespace VovaLantsovBlog.Server
                 {
                     string env = context.HostingEnvironment.EnvironmentName;
                     builder.AddJsonFile("dbsettings.json", false, false)
-                        .AddJsonFile($"dbsettings.{env}.json", true, false);
+                        .AddJsonFile($"dbsettings.{env}.json", true, false)
+                        .AddJsonFile("sentrysettings.json", false, false)
+                        .AddJsonFile($"sentrysettings.{env}.json", true, false);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureLogging((context, builder) =>
+                    {
+                        builder.AddConfiguration(context.Configuration);
+                        builder.AddDebug();
+                        builder.AddConsole();
+                        if (context.HostingEnvironment.IsProduction())
+                        {
+                            builder.AddSentry(context.Configuration["Sentry:Dsn"]);
+                        }
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
