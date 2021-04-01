@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,10 @@ namespace VovaLantsovBlog.Server
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    bool fileExists = File.Exists("/keys/ca-certificate.crt");
+                    string conStr = webBuilder.GetSetting("ConnectionStrings:BlogConnectionString")!;
+                    Console.WriteLine(fileExists);
+                    Console.WriteLine(conStr);
                     webBuilder.ConfigureLogging((context, builder) =>
                     {
                         builder.AddConfiguration(context.Configuration);
