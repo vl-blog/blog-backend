@@ -33,7 +33,7 @@ changeBuildType(RelativeId("Up")) {
                 type = "CreateTextFile"
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/docker-compose.override.yml")
                 param("content", """
-                    version: '3.7'
+                    version: '3.8'
                     
                     services:
                       host:
@@ -41,6 +41,13 @@ changeBuildType(RelativeId("Up")) {
                           - /keys:/keys
                         environment:
                           - ASPNETCORE_ENVIRONMENT=%env.ASPNETCORE_ENVIRONMENT%
+                        networks:
+                          - blog_network
+                    
+                    networks:
+                      blog_network:
+                        external:
+                          name: postgres_network
                 """.trimIndent())
             }
         }
