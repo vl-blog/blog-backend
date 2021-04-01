@@ -88,7 +88,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production sentry settings"
                 type = "CreateTextFile"
-                param("system.dest.file", "%teamcity.build.checkoutDir%/src/VovaLantsovBlog.Server/sentrysettings.Production.json")
+                param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/sentrysettings.Production.json")
                 param("content", """
                     {
                         "Sentry": {
