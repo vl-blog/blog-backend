@@ -44,8 +44,11 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
     
-    [Parameter("Check to wipe the database data on shutdown.")]
+    [Parameter("Check to wipe the database data on shutdown")]
     readonly bool WipeDatabaseData;
+
+    [Parameter("The name of docker-compose project")]
+    readonly string ProjectName = "blog";
 
     [Solution] readonly Solution Solution;
     
@@ -58,14 +61,17 @@ class Build : NukeBuild
     Target Down => _ => _
         .Executes(() =>
         {
-            DockerCompose(WipeDatabaseData ? "down --volumes" : "down", SourceDirectory);
+            string command = $"-p {ProjectName} down";
+            if (WipeDatabaseData)
+                command += " --volumes";
+            DockerCompose(command, SourceDirectory);
         });
 
     Target Up => _ => _
         .DependsOn(Down)
         .Executes(() =>
         {
-            DockerCompose("up --build -d --remove-orphans", SourceDirectory);
+            DockerCompose($"-p {ProjectName} up --build -d --remove-orphans", SourceDirectory);
         });
 
     Target Clean => _ => _
