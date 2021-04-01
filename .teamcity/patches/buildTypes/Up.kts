@@ -41,13 +41,6 @@ changeBuildType(RelativeId("Up")) {
                           - /keys:/keys
                         environment:
                           - ASPNETCORE_ENVIRONMENT=%env.ASPNETCORE_ENVIRONMENT%
-                        networks:
-                          - blog_network
-                    
-                    networks:
-                      blog_network:
-                        external:
-                          name: postgres_network
                 """.trimIndent())
             }
         }
