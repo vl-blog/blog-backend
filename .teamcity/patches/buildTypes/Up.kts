@@ -84,5 +84,19 @@ changeBuildType(RelativeId("Up")) {
         update<ExecBuildStep>(3) {
             clearConditions()
         }
+        insert(4) {
+            step {
+                name = "Production sentry settings"
+                type = "CreateTextFile"
+                param("system.dest.file", "%teamcity.build.checkoutDir%/src/VovaLantsovBlog.Server/sentrysettings.Production.json")
+                param("content", """
+                    {
+                        "Sentry": {
+                            "Dsn": "%env.SENTRY_DSN%"
+                        }
+                    }
+                """.trimIndent())
+            }
+        }
     }
 }
