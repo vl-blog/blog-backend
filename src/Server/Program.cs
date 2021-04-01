@@ -47,11 +47,8 @@ namespace VovaLantsovBlog.Server
                         builder.AddConfiguration(context.Configuration);
                         builder.AddDebug();
                         builder.AddConsole();
-                        if (context.HostingEnvironment.IsProduction())
-                        {
-                            builder.AddSentry(context.Configuration["Sentry:Dsn"]);
-                        }
                     });
+                    webBuilder.UseSentry();
                     webBuilder.UseStartup<Startup>();
                 });
     }
