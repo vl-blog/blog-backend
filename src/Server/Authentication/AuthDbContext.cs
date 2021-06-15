@@ -1,14 +1,12 @@
-﻿using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace VovaLantsovBlog.Server.Authentication
 {
-    public sealed class AuthDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public sealed class AuthDbContext : IdentityDbContext<ApplicationUser>
     {
-        public AuthDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
-            : base(options, operationalStoreOptions)
+        public AuthDbContext(DbContextOptions options)
+            : base(options)
         {
         }
     }

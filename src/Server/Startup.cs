@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Server.Authentication;
 using VovaLantsovBlog.Shared;
@@ -35,16 +38,35 @@ namespace VovaLantsovBlog.Server
 
             services.AddDbContext<AuthDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
-                    builder.EnableRetryOnFailure()));
-            
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<AuthDbContext>();
+                    builder.EnableRetryOnFailure()
+                        .MigrationsHistoryTable("__AuthMigrationHistory", Constants.SchemaName)));
 
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AuthDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddEntityFrameworkStores<AuthDbContext>();
             
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = options.DefaultAuthenticateScheme =
+                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(jwt =>
+                {
+                    var key = Encoding.ASCII.GetBytes(Configuration["Jwt:SecretKey"]);
+
+                    jwt.SaveToken = true;
+                    jwt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RequireExpirationTime = false,
+                        ValidateLifetime = true
+                    };
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,7 +82,6 @@ namespace VovaLantsovBlog.Server
 
             app.UseRouting();
 
-            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 
