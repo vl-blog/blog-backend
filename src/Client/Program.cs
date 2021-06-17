@@ -14,7 +14,7 @@ namespace VovaLantsovBlog.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddHttpClient("VovaLantsovBlog.ServerAPI", client =>
-                client.BaseAddress = new Uri("http://localhost:5003/"));
+                client.BaseAddress = new Uri("https://blog.vova-lantsov.dev/"));
 
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("VovaLantsovBlog.ServerAPI"));
