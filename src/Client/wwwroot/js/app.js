@@ -33,9 +33,9 @@ window.headerControlFunctions = {
             heroNav.classList.toggle("hero__navigation--active");
             menuOpen.classList.toggle("hero__menu--active");
         };
-    }/*,
-    hideLoadingAnimation: function() {
-        const loader = document.getElementsByClassName('preloader')[0];
-        loader.parent.removeChild(loader);
-    }*/
+    },
+    toggleMenu: function() {
+        const menuOpen = document.querySelector(".hero__menu");
+        menuOpen.click();
+    }
 };
