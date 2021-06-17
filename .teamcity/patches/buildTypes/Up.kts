@@ -13,13 +13,16 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("Up")) {
     params {
         add {
-            text("env.ASPNETCORE_ENVIRONMENT", "Production", readOnly = true, allowEmpty = true)
-        }
-        add {
             password("env.SENTRY_DSN", "credentialsJSON:205daec2-7af9-46f4-a515-9c9a90e027d0", display = ParameterDisplay.HIDDEN)
         }
         add {
             password("env.POSTGRES_PASSWORD", "credentialsJSON:1e25d30c-7993-4f20-8a26-42255dfc111a", display = ParameterDisplay.HIDDEN)
+        }
+        add {
+            password("env.JWT_SECRET_KEY", "credentialsJSON:f5457b61-0c9d-4af0-a588-f4f760415094", display = ParameterDisplay.HIDDEN)
+        }
+        add {
+            text("env.ASPNETCORE_ENVIRONMENT", "Production", readOnly = true, allowEmpty = true)
         }
     }
 
