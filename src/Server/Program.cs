@@ -38,7 +38,9 @@ namespace VovaLantsovBlog.Server
                     builder.AddJsonFile("dbsettings.json", false, false)
                         .AddJsonFile($"dbsettings.{env}.json", true, false)
                         .AddJsonFile("sentrysettings.json", false, false)
-                        .AddJsonFile($"sentrysettings.{env}.json", true, false);
+                        .AddJsonFile($"sentrysettings.{env}.json", true, false)
+                        .AddJsonFile("jwt.json", false, false)
+                        .AddJsonFile($"jwt.{env}.json", true, false);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
