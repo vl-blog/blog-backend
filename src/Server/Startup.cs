@@ -39,6 +39,7 @@ namespace VovaLantsovBlog.Server
             services.AddDbContext<AuthDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
                     builder.EnableRetryOnFailure()
+                        .MigrationsAssembly("VovaLantsovBlog.Server")
                         .MigrationsHistoryTable("__AuthMigrationHistory", Constants.SchemaName)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace VovaLantsovBlog.Server.Migrations
 {
-    public partial class InitAuthDb : Migration
+    public partial class InitAuth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
