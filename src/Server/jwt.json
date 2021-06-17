@@ -1,5 +1,5 @@
 ﻿{
-    "JwtOptions": {
+    "Jwt": {
         "SecretKey": "PLACEHOLDER"
     }
 }
