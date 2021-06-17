@@ -34,6 +34,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production docker-compose configuration"
                 type = "CreateTextFile"
+                executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/docker-compose.override.yml")
                 param("content", """
                     version: '3.8'
@@ -51,6 +52,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production database settings"
                 type = "CreateTextFile"
+                executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/dbsettings.Production.json")
                 param("content", """
                     {
@@ -65,6 +67,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production application settings"
                 type = "CreateTextFile"
+                executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/appsettings.Production.json")
                 param("content", """
                     {
@@ -88,6 +91,7 @@ changeBuildType(RelativeId("Up")) {
             step {
                 name = "Production sentry settings"
                 type = "CreateTextFile"
+                executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/sentrysettings.Production.json")
                 param("content", """
                     {
@@ -100,6 +104,21 @@ changeBuildType(RelativeId("Up")) {
         }
         update<ExecBuildStep>(4) {
             clearConditions()
+        }
+        insert(5) {
+            step {
+                name = "Production jwt configuration"
+                type = "CreateTextFile"
+                executionMode = BuildStep.ExecutionMode.DEFAULT
+                param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/jwt.Production.json")
+                param("content", """
+                    {
+                        "Jwt": {
+                            "SecretKey": "%env.JWT_SECRET_KEY%"
+                        }
+                    }
+                """.trimIndent())
+            }
         }
     }
 }
