@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Shared.Responses.Post;
 
 namespace VovaLantsovBlog.Server.Controllers
@@ -10,10 +15,17 @@ namespace VovaLantsovBlog.Server.Controllers
     [AllowAnonymous]
     public sealed class PostsController : ControllerBase
     {
-        [HttpGet("getPost")]
-        public ActionResult<PostResponseModel> GetPost([FromQuery] string id)
+        private readonly BlogContext _context;
+
+        public PostsController(BlogContext context)
         {
-            const string link = "https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+            _context = context;
+        }
+        
+        [HttpGet("getPost")]
+        public async Task<ActionResult<PostResponseModel>> GetPost([FromQuery] string id)
+        {
+            /*const string link = "https://images.unsplash.com/photo-1612832020988-e55e474cfa21?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
             var post = new PostResponseModel
             {
                 Author = "Vova Lantsov",
@@ -46,8 +58,34 @@ namespace VovaLantsovBlog.Server.Controllers
                         PostTitle = "Post 3"
                     }
                 }
+            };*/
+            var post = await _context.Posts
+                .AsNoTracking()
+                .Include(p => p.Tags)
+                .Include(p => p.ReadMorePosts)
+                .FirstOrDefaultAsync(p => p.Key == id);
+            var postResponse = new PostResponseModel
+            {
+                Author = post.Author,
+                Tags = post.Tags?.Select(t => new TagResponseModel
+                {
+                    Id = t.Key,
+                    Name = t.Name
+                }).ToList(),
+                ImageUrl = post.ImageUrl,
+                MarkdownContent = post.MarkdownContent,
+                PostId = post.Key,
+                PostTitle = post.PostTitle,
+                LastEditedTime = post.LastEditedTime.ToString("f", new CultureInfo("en-US")),
+                ReadMorePosts = post.ReadMorePosts.Select(p => new PostPreviewResponseModel
+                {
+                    PostId = p.Key,
+                    ImageUrl = p.ImageUrl,
+                    PostTitle = p.PostTitle,
+                    LastEditedTime = p.LastEditedTime.ToString("f", new CultureInfo("en-US"))
+                }).ToList()
             };
-            return post;
+            return postResponse;
         }
     }
 }
