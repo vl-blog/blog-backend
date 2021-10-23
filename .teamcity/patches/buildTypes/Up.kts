@@ -108,7 +108,7 @@ changeBuildType(RelativeId("Up")) {
         insert(4) {
             step {
                 name = "Production jwt configuration"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/jwt.Production.json")
                 param("content", """
