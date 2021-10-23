@@ -105,10 +105,7 @@ changeBuildType(RelativeId("Up")) {
                 """.trimIndent())
             }
         }
-        update<ExecBuildStep>(4) {
-            clearConditions()
-        }
-        insert(5) {
+        insert(4) {
             step {
                 name = "Production jwt configuration"
                 type = "CreateTextFile"
@@ -122,6 +119,9 @@ changeBuildType(RelativeId("Up")) {
                     }
                 """.trimIndent())
             }
+        }
+        update<ExecBuildStep>(5) {
+            clearConditions()
         }
     }
 }
