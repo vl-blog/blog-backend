@@ -69,7 +69,7 @@ changeBuildType(RelativeId("Up")) {
         insert(2) {
             step {
                 name = "Production application settings"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/appsettings.Production.json")
                 param("content", """
