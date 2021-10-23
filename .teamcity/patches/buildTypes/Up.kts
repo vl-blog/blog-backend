@@ -93,7 +93,7 @@ changeBuildType(RelativeId("Up")) {
         insert(3) {
             step {
                 name = "Production sentry settings"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/sentrysettings.Production.json")
                 param("content", """
