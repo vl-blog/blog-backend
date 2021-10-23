@@ -16,7 +16,7 @@ changeBuildType(RelativeId("Up")) {
             password("env.SENTRY_DSN", "credentialsJSON:205daec2-7af9-46f4-a515-9c9a90e027d0", display = ParameterDisplay.HIDDEN)
         }
         add {
-            password("env.POSTGRES_PASSWORD", "credentialsJSON:1e25d30c-7993-4f20-8a26-42255dfc111a", display = ParameterDisplay.HIDDEN)
+            password("env.POSTGRES_CONNECTION_STRING", "credentialsJSON:58c6cb26-2f44-4165-affa-9e1496a59a09", display = ParameterDisplay.HIDDEN)
         }
         add {
             password("env.JWT_SECRET_KEY", "credentialsJSON:f5457b61-0c9d-4af0-a588-f4f760415094", display = ParameterDisplay.HIDDEN)
@@ -36,7 +36,7 @@ changeBuildType(RelativeId("Up")) {
         insert(0) {
             step {
                 name = "Production docker-compose configuration"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/docker-compose.override.yml")
                 param("content", """
@@ -54,13 +54,13 @@ changeBuildType(RelativeId("Up")) {
         insert(1) {
             step {
                 name = "Production database settings"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/dbsettings.Production.json")
                 param("content", """
                     {
                         "ConnectionStrings": {
-                            "BlogConnectionString": "Host=db-postgresql-fra1-35121-do-user-8845680-0.b.db.ondigitalocean.com;Port=25060;UserId=doadmin;Password=%env.POSTGRES_PASSWORD%;Database=blog;CommandTimeout=300;SslMode=Require;ClientCertificate=/keys/ca-certificate.crt;TrustServerCertificate=true"
+                            "BlogConnectionString": "%env.POSTGRES_CONNECTION_STRING%"
                         }
                     }
                 """.trimIndent())
@@ -69,7 +69,7 @@ changeBuildType(RelativeId("Up")) {
         insert(2) {
             step {
                 name = "Production application settings"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/appsettings.Production.json")
                 param("content", """
@@ -93,7 +93,7 @@ changeBuildType(RelativeId("Up")) {
         insert(3) {
             step {
                 name = "Production sentry settings"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/sentrysettings.Production.json")
                 param("content", """
@@ -105,13 +105,10 @@ changeBuildType(RelativeId("Up")) {
                 """.trimIndent())
             }
         }
-        update<ExecBuildStep>(4) {
-            clearConditions()
-        }
-        insert(5) {
+        insert(4) {
             step {
                 name = "Production jwt configuration"
-                type = "CreateTextFile"
+                type = "MRPP_CreateTextFile"
                 executionMode = BuildStep.ExecutionMode.DEFAULT
                 param("system.dest.file", "%teamcity.build.checkoutDir%/src/Server/jwt.Production.json")
                 param("content", """
@@ -122,6 +119,9 @@ changeBuildType(RelativeId("Up")) {
                     }
                 """.trimIndent())
             }
+        }
+        update<ExecBuildStep>(5) {
+            clearConditions()
         }
     }
 }
