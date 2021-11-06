@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@inject IJSRuntime Js
-@inject NavigationManager Nav
+@inject IJSRuntime _js
 
 <header class="hero">
     <div class="hero__menu">
@@ -54,9 +53,9 @@
     {
         if (firstRender)
         {
-            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToSearchButton");
-            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToCloseButton");
-            await Js.InvokeVoidAsync("headerControlFunctions.addListenerToMenuButton");
+            await _js.InvokeVoidAsync("headerControlFunctions.addListenerToSearchButton");
+            await _js.InvokeVoidAsync("headerControlFunctions.addListenerToCloseButton");
+            await _js.InvokeVoidAsync("headerControlFunctions.addListenerToMenuButton");
         }
     }
 

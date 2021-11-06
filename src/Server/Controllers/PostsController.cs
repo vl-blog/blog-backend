@@ -29,6 +29,9 @@ namespace VovaLantsovBlog.Server.Controllers
                 .Include(p => p.Tags)
                 .Include(p => p.ReadMorePosts)
                 .FirstOrDefaultAsync(p => p.Key == id);
+            if (post == null)
+                return NotFound();
+            
             var postResponse = new PostResponseModel
             {
                 Author = post.Author,
