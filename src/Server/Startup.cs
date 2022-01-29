@@ -12,86 +12,85 @@ using VovaLantsovBlog.Data;
 using VovaLantsovBlog.Server.Authentication;
 using VovaLantsovBlog.Shared;
 
-namespace VovaLantsovBlog.Server
+namespace VovaLantsovBlog.Server;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        Configuration = configuration;
+    }
 
-        private IConfiguration Configuration { get; }
+    private IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllersWithViews();
+        services.AddRazorPages();
             
-            services.AddDatabaseDeveloperPageExceptionFilter();
+        services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDbContext<BlogContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
-                    builder.EnableRetryOnFailure()
-                        .MigrationsAssembly("VovaLantsovBlog.Data")
-                        .MigrationsHistoryTable("__MigrationHistory", Constants.SchemaName)));
+        services.AddDbContext<BlogContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
+                builder.EnableRetryOnFailure()
+                    .MigrationsAssembly("VovaLantsovBlog.Data")
+                    .MigrationsHistoryTable("__MigrationHistory", Constants.SchemaName)));
 
-            services.AddDbContext<AuthDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
-                    builder.EnableRetryOnFailure()
-                        .MigrationsAssembly("VovaLantsovBlog.Server")
-                        .MigrationsHistoryTable("__AuthMigrationHistory", Constants.SchemaName)));
+        services.AddDbContext<AuthDbContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("BlogConnectionString"), builder =>
+                builder.EnableRetryOnFailure()
+                    .MigrationsAssembly("VovaLantsovBlog.Server")
+                    .MigrationsHistoryTable("__AuthMigrationHistory", Constants.SchemaName)));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddRoles<IdentityRole>()
-                .AddRoleManager<RoleManager<IdentityRole>>()
-                .AddEntityFrameworkStores<AuthDbContext>();
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddRoles<IdentityRole>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
+            .AddEntityFrameworkStores<AuthDbContext>();
             
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultScheme = options.DefaultAuthenticateScheme =
-                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(jwt =>
-                {
-                    var key = Encoding.ASCII.GetBytes(Configuration["Jwt:SecretKey"]);
-
-                    jwt.SaveToken = true;
-                    jwt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        RequireExpirationTime = false,
-                        ValidateLifetime = true
-                    };
-                });
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
+        services
+            .AddAuthentication(options =>
             {
-                app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
-            }
-
-            app.UseBlazorFrameworkFiles();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+                options.DefaultScheme = options.DefaultAuthenticateScheme =
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwt =>
             {
-                endpoints.MapRazorPages();
-                endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                var key = Encoding.ASCII.GetBytes(Configuration["Jwt:SecretKey"]);
+
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
             });
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseWebAssemblyDebugging();
         }
+
+        app.UseBlazorFrameworkFiles();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapRazorPages();
+            endpoints.MapControllers();
+            endpoints.MapFallbackToFile("index.html");
+        });
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace VovaLantsovBlog.Shared
+﻿namespace VovaLantsovBlog.Shared;
+
+public static class Constants
 {
-    public static class Constants
-    {
-        public const string SchemaName = "public";
-    }
+    public const string SchemaName = "public";
 }
