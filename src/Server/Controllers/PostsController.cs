@@ -29,30 +29,32 @@ public sealed class PostsController : ControllerBase
             .Include(p => p.Tags)
             .Include(p => p.ReadMorePosts)
             .FirstOrDefaultAsync(p => p.Key == id);
+        
         if (post == null)
             return NotFound();
-            
-        var postResponse = new PostResponseModel
-        {
-            Author = post.Author,
-            Tags = post.Tags?.Select(t => new TagResponseModel
-            {
-                Id = t.Key,
-                Name = t.Name
-            }).ToList(),
-            ImageUrl = post.ImageUrl,
-            MarkdownContent = post.MarkdownContent,
-            PostId = post.Key,
-            PostTitle = post.PostTitle,
-            LastEditedTime = post.LastEditedTime.ToString("f", new CultureInfo("en-US")),
-            ReadMorePosts = post.ReadMorePosts.Select(p => new PostPreviewResponseModel
-            {
-                PostId = p.Key,
-                ImageUrl = p.ImageUrl,
-                PostTitle = p.PostTitle,
-                LastEditedTime = p.LastEditedTime.ToString("f", new CultureInfo("en-US"))
-            }).ToList()
-        };
+
+        var postResponse = new PostResponseModel(
+            PostId: post.Key,
+            PostTitle: post.PostTitle,
+            ImageUrl: post.ImageUrl,
+            LastEditedTime: post.LastEditedTime.ToString("f", new CultureInfo("en-US")),
+            MarkdownContent: post.MarkdownContent,
+            Author: post.Author,
+            ReadMorePosts: post.ReadMorePosts!.Select(p =>
+                new PostPreviewResponseModel(
+                    PostId: p.Key,
+                    PostTitle: p.PostTitle,
+                    LastEditedTime: p.LastEditedTime.ToString("f", new CultureInfo("en-US")),
+                    ImageUrl: p.ImageUrl
+                )
+            ).ToList(),
+            Tags: post.Tags!.Select(t =>
+                new TagResponseModel(
+                    Id: t.Key,
+                    Name: t.Name
+                )
+            ).ToList());
+        
         return postResponse;
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,32 +24,34 @@ public sealed class HomeController : ControllerBase
     }
         
     [HttpGet("getCategoriesPreview")]
-    public ActionResult<List<CategoryResponseModel>> GetCategoriesPreview([FromQuery] bool includePosts = true)
+    public async Task<ActionResult<List<CategoryResponseModel>>> GetCategoriesPreview([FromQuery] bool includePosts = true)
     {
         var models = new List<CategoryResponseModel>();
-        var query = _context.Tags.Where(t => t.IsCategory);
+        
+        var query = _context.Tags
+            .AsNoTracking()
+            .Where(t => t.IsCategory);
         if (includePosts)
             query = query.Include(t => t.Posts);
-        var categories = query.ToArray();
+        var categories = await query.ToArrayAsync();
+        
         foreach (var category in categories)
         {
-            var model = new CategoryResponseModel
-            {
-                CategoryId = category.Key,
-                CategoryName = category.Name,
-                Posts = new List<PostPreviewResponseModel>()
-            };
+            var model = new CategoryResponseModel(
+                CategoryId: category.Key,
+                CategoryName: category.Name,
+                Posts: new List<PostPreviewResponseModel>());
             if (includePosts)
             {
-                foreach (var post in category.Posts)
+                foreach (var post in category.Posts ??
+                                     throw new ArgumentException(
+                                         $"{nameof(category)}.{nameof(category.Posts)} must not be null"))
                 {
-                    model.Posts.Add(new PostPreviewResponseModel
-                    {
-                        ImageUrl = post.ImageUrl,
-                        PostId = post.Key,
-                        PostTitle = post.PostTitle,
-                        LastEditedTime = post.LastEditedTime.ToLongDateString()
-                    });
+                    model.Posts.Add(new PostPreviewResponseModel(
+                        PostId: post.Key,
+                        PostTitle: post.PostTitle,
+                        LastEditedTime: post.LastEditedTime.ToLongDateString(),
+                        ImageUrl: post.ImageUrl));
                 }
             }
             models.Add(model);

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,26 +22,27 @@ public sealed class TagsController : ControllerBase
     }
 
     [HttpGet("getTag")]
-    public ActionResult<CategoryResponseModel>? GetCategoryOrTagByKey([FromQuery] string key)
+    public async Task<ActionResult<CategoryResponseModel?>> GetCategoryOrTagByKey([FromQuery] string key)
     {
-        var category = _context.Tags.FirstOrDefault(t => t.Key == key);
+        var category = await _context.Tags
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.Key == key);
+        
         if (category == null)
-            return null;
-        return new CategoryResponseModel
-        {
-            CategoryId = category!.Key,
-            CategoryName = category.Name,
-            Posts = _context.Posts
+            return (CategoryResponseModel?) null;
+
+        return new CategoryResponseModel(
+            CategoryId: category.Key,
+            CategoryName: category.Name,
+            Posts: await _context.Posts
+                .AsNoTracking()
                 .Include(p => p.Tags)
                 .Where(p => p.Tags!.Contains(category))
-                .Select(p => new PostPreviewResponseModel
-                {
-                    ImageUrl = p.ImageUrl,
-                    PostId = p.Key,
-                    PostTitle = p.PostTitle,
-                    LastEditedTime = p.LastEditedTime.ToShortDateString()
-                })
-                .ToList()
-        };
+                .Select(p => new PostPreviewResponseModel(
+                    p.Key,
+                    p.PostTitle,
+                    p.LastEditedTime.ToShortDateString(),
+                    p.ImageUrl))
+                .ToListAsync());
     }
 }
